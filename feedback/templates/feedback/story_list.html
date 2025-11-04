@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Stories — Gov360{% endblock %}
+
+{% block content %}
+<h1>Regional Stories</h1>
+<p>Click a story title to view and give feedback.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr><th>Title</th><th>Outlet</th><th>Published</th><th>Feedbacks</th></tr>
+  </thead>
+  <tbody>
+    {% for s in stories %}
+    <tr>
+      <td><a href="{% url 'feedback:story_detail' slug=s.slug %}">{{ s.title }}</a></td>
+      <td>{{ s.outlet }}</td>
+      <td>{{ s.published_date }}</td>
+      <td>{{ s.feedback_count }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No stories yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{{ story.title }} — Gov360{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <h2>{{ story.title }}</h2>
+    <p><strong>Outlet:</strong> {{ story.outlet }} | <strong>Published:</strong> {{ story.published_date }}</p>
+    <p>{{ story.excerpt }}</p>
+    <p><a href="{{ story.url }}" target="_blank">Read original</a></p>
+
+    <hr>
+    <h4>Feedback Summary ({{ agg.count }} responses)</h4>
+    <ul>
+      <li>Accuracy: {{ agg.avg_accuracy|default:'—'|floatformat:2 }}</li>
+      <li>Bias: {{ agg.avg_bias|default:'—'|floatformat:2 }}</li>
+      <li>Clarity: {{ agg.avg_clarity|default:'—'|floatformat:2 }}</li>
+      <li>Relevance: {{ agg.avg_relevance|default:'—'|floatformat:2 }}</li>
+    </ul>
+
+    <hr>
+    <h5>Recent Feedback</h5>
+    {% for f in feedbacks %}
+      <div class="card mb-2">
+        <div class="card-body">
+            {% for f in feedbacks %}
+        <p>
+            <strong>
+            {% if f.user and not f.anonymous %}
+                {{ f.user.username }}
+            {% else %}
+                 Anonymous
+            {% endif %}
+            </strong>: {{ f.comment }}
+        </p>
+        {% endfor %}
+          <p><em>Score:</em> {{ f.average_score }}</p>
+          <p>{{ f.comment }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p>No feedback yet — be the first!</p>
+    {% endfor %}
+  </div>
+
+  <div class="col-md-4">
+    <div class="card sticky-top">
+      <div class="card-body">
+        <h5>Give Feedback</h5>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn btn-primary" type="submit">Submit Feedback</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
