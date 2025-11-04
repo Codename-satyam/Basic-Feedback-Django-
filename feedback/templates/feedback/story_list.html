@@ -2,24 +2,128 @@
 {% block title %}Stories — Gov360{% endblock %}
 
 {% block content %}
-<h1>Regional Stories</h1>
-<p>Click a story title to view and give feedback.</p>
+<style>
+  body {
+    background: linear-gradient(135deg, #e9f5ff 0%, #f9fcff 100%);
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  }
 
-<table class="table table-striped">
-  <thead>
-    <tr><th>Title</th><th>Outlet</th><th>Published</th><th>Feedbacks</th></tr>
-  </thead>
-  <tbody>
-    {% for s in stories %}
-    <tr>
-      <td><a href="{% url 'feedback:story_detail' slug=s.slug %}">{{ s.title }}</a></td>
-      <td>{{ s.outlet }}</td>
-      <td>{{ s.published_date }}</td>
-      <td>{{ s.feedback_count }}</td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4">No stories yet.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+  .container {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  h1 {
+    font-weight: 700;
+    color: #1d3557;
+    margin-bottom: 0.8rem;
+  }
+
+  p {
+    color: #495057;
+    margin-bottom: 1.5rem;
+  }
+
+  {% comment %} .story-table {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+  } {% endcomment %}
+
+  .story-table thead {
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
+    color: white;
+  }
+
+  .story-table th {
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+
+  .story-table td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    color: #333;
+  }
+
+  .story-table tr {
+    transition: background 0.25s ease, transform 0.2s ease;
+  }
+
+  .story-table tbody tr:hover {
+    background: #f1faff;
+    transform: scale(1.01);
+  }
+
+
+  a.story-link {
+    font-weight: 600;
+    color: #0077b6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  a.story-link:hover {
+    color: #023e8a;
+    text-decoration: underline;
+  }
+
+
+  .empty-row td {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 1.2rem;
+  }
+
+  .header-accent {
+    width: 50px;
+    height: 4px;
+    background: linear-gradient(90deg, #0077b6, #00b4d8);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+</style>
+
+<div class="container">
+  <h1>Regional Stories</h1>
+  <div class="header-accent"></div>
+  <p>Click a story title to view details and share your feedback.</p>
+
+  <div class="table-responsive story-table">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Outlet</th>
+          <th>Published</th>
+          <th>Feedbacks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stories %}
+        <tr>
+          <td>
+            <a href="{% url 'feedback:story_detail' slug=s.slug %}" class="story-link">
+              {{ s.title }}
+            </a>
+          </td>
+          <td>{{ s.outlet }}</td>
+          <td>{{ s.published_date }}</td>
+          <td>{{ s.feedback_count }}</td>
+        </tr>
+        {% empty %}
+        <tr class="empty-row">
+          <td colspan="4">No stories available yet. Check back soon!</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

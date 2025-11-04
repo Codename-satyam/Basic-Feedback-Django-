@@ -1,26 +1,27 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
-{% block title %}Login — Gov360{% endblock %}
+{% block title %}Sign Up — Gov360{% endblock %}
 
 {% block content %}
-<div class="login-container">
-  <h2>Welcome Back</h2>
-  <p class="subtitle">Please sign in to continue</p>
+<div class="signup-container">
+  <h2>Create Your Account</h2>
+  <p class="subtitle">Join Gov360 and start sharing your feedback</p>
 
-  <form method="post" class="login-form">
+  <form method="post" class="signup-form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn-login">Login</button>
+    <button type="submit" class="btn-signup">Sign Up</button>
   </form>
 
-  <p class="signup-text">
-    Don’t have an account? <a href="{% url 'feedback:signup' %}">Sign up</a>.
+  <p class="login-text">
+    Already have an account? <a href="{% url 'login' %}">Login here</a>.
   </p>
 </div>
 
 <style>
-  .login-container {
-    max-width: 420px;
+  .signup-container {
+    max-width: 440px;
     margin: 3rem auto;
     padding: 2.5rem 2rem;
     background: rgba(255, 255, 255, 0.92);
@@ -31,34 +32,34 @@
     animation: fadeIn 0.5s ease-in-out;
   }
 
-  .login-container h2 {
+  .signup-container h2 {
     font-size: 1.8rem;
     color: #023e8a;
     margin-bottom: 0.5rem;
     font-weight: 700;
   }
 
-  .login-container .subtitle {
+  .signup-container .subtitle {
     color: #6c757d;
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
   }
 
-  .login-form {
+  .signup-form {
     text-align: left;
   }
 
-  .login-form p {
+  .signup-form p {
     margin-bottom: 1rem;
   }
 
-  .login-form label {
+  .signup-form label {
     font-weight: 500;
     display: block;
     margin-bottom: 0.4rem;
   }
 
-  .login-form input {
+  .signup-form input {
     width: 100%;
     padding: 0.6rem 0.8rem;
     border: 1px solid #ced4da;
@@ -68,42 +69,42 @@
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .login-form input:focus {
+  .signup-form input:focus {
     border-color: #0077b6;
     box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
   }
 
-  .btn-login {
+  .btn-signup {
     width: 100%;
-    background: linear-gradient(135deg, #0077b6, #0096c7);
+    background: linear-gradient(135deg, #0096c7, #0077b6);
     color: #fff;
     font-weight: 600;
     border: none;
-    padding: 0.7rem;
+    padding: 0.75rem;
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease;
     margin-top: 0.5rem;
   }
 
-  .btn-login:hover {
-    background: linear-gradient(135deg, #0096c7, #00b4d8);
+  .btn-signup:hover {
+    background: linear-gradient(135deg, #00b4d8, #0096c7);
     transform: translateY(-2px);
   }
 
-  .signup-text {
+  .login-text {
     margin-top: 1.5rem;
     font-size: 0.95rem;
     color: #555;
   }
 
-  .signup-text a {
+  .login-text a {
     color: #0077b6;
     font-weight: 600;
     transition: color 0.25s ease;
   }
 
-  .signup-text a:hover {
+  .login-text a:hover {
     color: #023e8a;
     text-decoration: underline;
   }
@@ -120,7 +121,7 @@
   }
 
   @media (max-width: 600px) {
-    .login-container {
+    .signup-container {
       margin: 2rem 1rem;
       padding: 2rem 1.5rem;
     }

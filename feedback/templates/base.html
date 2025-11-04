@@ -5,39 +5,148 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Gov360 Feedback{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      color: #222;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      width: 92%;
+      margin: 0 auto;
+      padding: 0.9rem 0;
+    }
+
+    .navbar-brand {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0077b6;
+      letter-spacing: 0.5px;
+      transition: color 0.25s ease;
+    }
+
+    .navbar-brand:hover {
+      color: #023e8a;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .nav-links a,
+    .nav-links span {
+      font-weight: 500;
+      color: #333;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #0077b6;
+    }
+    form {
+      display: inline;
+    }
+
+    .btn-link {
+      border: none;
+      background: none;
+      font: inherit;
+      color: #333;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s ease;
+    }
+
+    .btn-link:hover {
+      color: #0077b6;
+    }
+
+    main {
+      max-width: 1000px;
+      width: 92%;
+      margin: 2.5rem auto;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+      backdrop-filter: blur(8px);
+    }
+    @media (max-width: 768px) {
+      .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+      }
+
+      main {
+        padding: 1.2rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'feedback:story_list' %}">Gov360</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
+
+  <nav>
+    <div class="navbar-container">
+      <a class="navbar-brand" href="{% url 'feedback:story_list' %}">Gov360</a>
+      <div class="nav-links">
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <span class="nav-link">Hi {{ user.username }}</span>
-          </li>
-          <li class="nav-item">
-            <form method="post" action="{% url 'logout' %}" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0;">Logout</button>
-            </form>
-          </li>
+          <span>Hi, {{ user.username }}</span>
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-link">Logout</button>
+          </form>
         {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
-          </li>
+          <a href="{% url 'login' %}">Login</a>
         {% endif %}
-      </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<div class="container">
-  {% block content %}{% endblock %}
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
 </body>
 </html>

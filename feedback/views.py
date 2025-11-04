@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg, Count
 from .models import Story, Feedback
@@ -12,7 +14,6 @@ def story_detail(request, slug):
     story = get_object_or_404(Story, slug=slug)
     feedbacks = story.feedbacks.select_related('region', 'user')[:200]
 
-    # aggregate averages for the story
     agg = story.feedbacks.aggregate(
         avg_accuracy=Avg('accuracy'),
         avg_bias=Avg('bias'),
@@ -44,7 +45,17 @@ def story_detail(request, slug):
 def submit_thanks(request):
     return render(request, 'feedback/submit_thanks.html')
 
-# Optional: staff view to create stories via web (otherwise use admin)
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # log them in after signing up
+            return redirect('feedback:story_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
 from django.contrib.admin.views.decorators import staff_member_required
 from django import forms
 from .models import Story
